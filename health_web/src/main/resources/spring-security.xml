@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/mvc
+                            http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                            http://code.alibabatech.com/schema/dubbo
+                            http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+                            http://www.springframework.org/schema/context
+                            http://www.springframework.org/schema/context/spring-context.xsd
+                            http://www.springframework.org/schema/security
+                            http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--1.配置需要权限才能访问的资源
+             auto-config属性: true 自动配置
+             use-expressions属性: false 不使用表达式
+    -->
+    
+    <context:component-scan base-package="com.itheima"/>
+
+    <security:http security="none" pattern="/css/**"/>
+    <security:http security="none" pattern="/img/**"/>
+    <security:http security="none" pattern="/js/**"/>
+    <security:http security="none" pattern="/plugins/**"/>
+    <security:http security="none" pattern="/login.html"/>
+
+
+    <security:http use-expressions="true" auto-config="true">
+
+        <security:headers>
+            <security:frame-options policy="SAMEORIGIN"></security:frame-options>
+        </security:headers>
+        <!--配置拦截的路径 pattern属性: 拦截的路径规则; access属性:需要什么角色才能访问-->
+        <security:intercept-url pattern="/pages/**" access="isAuthenticated()"/>
+<!--
+        <security:intercept-url pattern="/c.html" access="hasAuthority('add')"/>
+        <security:intercept-url pattern="/a.html" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/b.html" access="isAnonymous()"/>
+        <security:intercept-url pattern="/d.html" access="hasAuthority('ROLE_ADMIN')"/>
+-->
+
+
+
+   <!--     <security:form-login login-page="/login.html" login-processing-url="/login.do" username-parameter="username"
+                             password-parameter="password" authentication-failure-url="/login.html"
+                             always-use-default-target="true" default-target-url="/index.html"/>-->
+
+            <security:form-login login-page="/login.html" login-processing-url="/login.do"
+                                 authentication-failure-url="/login.html"
+                                 always-use-default-target="true" default-target-url="/pages/main.html"/>
+
+
+        <security:csrf disabled="true"/>
+            <security:logout logout-success-url="/login.html" delete-cookies="JSESSIONID" logout-url="/logout.do" invalidate-session="true"/>
+
+
+    </security:http>
+    <!--2.配置认证管理器-->
+   <!-- <security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                &lt;!&ndash;配置账号密码，以及该账号的角色信息     name属性: 用户名; password属性:密码({noop}不加密方式);  authorities属性:赋予的角色     &ndash;&gt;
+                <security:user name="admin" authorities="ROLE_ADMIN" password="{noop}admin"></security:user>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>-->
+
+    <bean id="healthWebSecurtiyService" class="com.itheima.security.HealthWebSecurtiyService"/>
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="healthWebSecurtiyService">
+
+            <security:password-encoder ref="bCryptPasswordEncoder"/>
+
+        </security:authentication-provider>
+    </security:authentication-manager>
+    <bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <security:global-method-security pre-post-annotations="enabled" />
+</beans>
