@@ -286,11 +286,23 @@ public class DateUtils {
     }
 
     public static void main(String[] args) {
-        try {
+        /*try {
             System.out.println("本周一" + parseDate2String(getThisWeekMonday()));
             System.out.println("本月一日" + parseDate2String(getFirstDay4ThisMonth()));
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
+
+       /* String startDate ="2019-01";
+        String endDate ="2019-05";
+
+
+        try {
+            System.out.println(DateUtils.getMonthBetween(startDate, endDate, "yyyy-MM"));
+        } catch (Exception e) {
+
+
+        }*/
+
     }
 }

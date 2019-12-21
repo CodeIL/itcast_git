@@ -6,4 +6,17 @@
     <select id="findByRoleId" parameterType="int" resultType="com.itheima.pojo.Permission">
               SELECT tp.* FROM t_permission tp WHERE tp.id IN(SELECT  permission_id  FROM t_role_permission WHERE role_id = #{roleId})
     </select>
+
+    <insert id="add" parameterType="com.itheima.pojo.Permission">
+        INSERT INTO `t_permission` (NAME,keyword,description) VALUES (#{name},#{keyword},#{description})
+    </insert>
+
+    <select id="selectByCondition" parameterType="string" resultType="com.itheima.pojo.Permission">
+        SELECT * FROM `t_permission`
+        <where>
+            <if test="value != null">
+              NAME like #{value} or keyword like #{value}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -104,4 +104,12 @@
     <select id="findMemberCountAfterDate" parameterType="string" resultType="int">
         SELECT COUNT(*) FROM `t_member` WHERE regTime >= #{value}
     </select>
+
+    <select id="findByRegTime" resultType="int" parameterType="string">
+        SELECT count(*) FROM `t_member` WHERE regTime &lt;= #{value}
+    </select>
+
+
+
+
 </mapper>

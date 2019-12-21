@@ -82,6 +82,7 @@
           <element id="archive" name="health_dao-1.0-SNAPSHOT.jar">
             <element id="module-output" name="health_dao" />
           </element>
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.8.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">

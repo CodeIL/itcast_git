@@ -14,4 +14,6 @@ public interface MemberDao {
     int totalMember();
 
     int findMemberCountAfterDate(String thisWeekMonday);
+
+    int findByRegTime(String month);
 }

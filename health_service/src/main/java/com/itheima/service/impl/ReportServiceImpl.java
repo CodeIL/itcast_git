@@ -109,4 +109,31 @@ private ReportDao reportDao;
         map.put("thisMonthVisitsNumber",thisMonthVisitsNumber);
         return map;
     }
+
+    @Override
+    public Map<String, Object> getMemberReportBySelectTime(String[] times) throws Exception {
+        //遍历出所有要进行查询的月份
+        List<String> months1 = DateUtils.getMonthBetween(times[0], times[1], "yyyy-MM");
+        System.out.println("遍历出所有要进行查询的月份"+months1);
+        System.out.println("遍历出所有要进行查询的月份"+months1.toString());
+        Map<String,Object> map = new HashMap<>();
+        //用户数量
+        List<Integer> memberCount = new ArrayList<>();
+        //所有月份
+        List<String> months = new ArrayList<>();
+
+        if (months1 != null && months1.size()>0) {
+            for (String month : months1) {
+                months.add(month);
+                int count = memberDao.findByRegTime(month);
+                System.out.println("a====="+count);
+                System.out.println("a====="+count);
+                System.out.println("a====="+count);
+                memberCount.add(count);
+            }
+        }
+        map.put("memberCount",memberCount);
+        map.put("months",months);
+        return map;
+    }
 }

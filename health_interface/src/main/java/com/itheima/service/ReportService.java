@@ -10,4 +10,5 @@ public interface ReportService {
 
     Map<String,Object> getBusinessReportData() throws Exception;
 
+    Map<String,Object> getMemberReportBySelectTime(String[] times) throws Exception;
 }

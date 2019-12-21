@@ -58,6 +58,7 @@ public class SetmealController {
     }
 
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
+
     public Result upload(@RequestParam("imgFile") MultipartFile multipartFile){
         try {
             String originalFilename = multipartFile.getOriginalFilename();

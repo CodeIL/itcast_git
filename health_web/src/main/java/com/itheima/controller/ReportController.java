@@ -4,10 +4,13 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.constant.MessageConstant;
 import com.itheima.entity.Result;
 import com.itheima.service.ReportService;
+import com.itheima.utils.DateUtils;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -166,4 +169,22 @@ public class ReportController {
         }
     }
 
+    @RequestMapping(value = "/getMemberReportByDate",method = RequestMethod.POST)
+    @PreAuthorize("isAuthenticated()")
+    public Result getMemberReportBySelectTime(String[] times){
+
+        System.out.println(times[0]);
+        System.out.println(times[1]);
+        try {
+            Map<String,Object> map = reportService.getMemberReportBySelectTime(times);
+            return new Result(true,MessageConstant.LOGIN_SUCCESS,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,MessageConstant.GET_BUSINESS_REPORT_FAIL);
+        }
+
+/*String[] times
+        reportService.getMemberReportBySelectTime(times);
+*/
+    }
 }
